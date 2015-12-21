@@ -17,9 +17,9 @@ ground  -> 1 -> black <br>
 connecting to arduino using the MAX485 module of ebay  
 ![](http://i.imgur.com/T6gYmme.png)
 
-===library===
-* https:https://code.google.com/p/tinkerit/wiki/DmxSimple
-* example - TBD
+===CODE===  
+using [DMXSimple lib](https:https://code.google.com/p/tinkerit/wiki/DmxSimple)  
+* [github](https://github.com/5shekel/lightnight/)  
 
 ===more info===
 https://arduino-info.wikispaces.com/SoftwareSerialRS485Example
