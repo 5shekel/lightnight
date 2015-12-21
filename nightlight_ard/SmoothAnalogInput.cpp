@@ -6,7 +6,7 @@ SmoothAnalogInput::SmoothAnalogInput() {
     _mapMax = 1024;
     _mapMin = 0;
     _res = 1;
-    _rampValUp = 2.4;
+    _rampValUp = 2.4; //this will ramp faster on the up values
 }
 
 void SmoothAnalogInput::attach(int pin) {
