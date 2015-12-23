@@ -10,15 +10,15 @@
 
 class SmoothAnalogInput {
     public:
-        SmoothAnalogInput();
-        void attach(int pin);
+        SmoothAnalogInput(uint8_t pin);
+       // void attach(int pin);
         void scale(int min, int max);
         void setRampValUp(float ramp);
         int read();
         int raw();
     private:
         int _samples[SMOOTH_ANALOG_INPUT_SIZE];
-        int _pin;
+        uint8_t pin;
         int _index;
         int _mapMin;
         int _mapMax;

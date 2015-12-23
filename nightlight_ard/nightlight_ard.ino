@@ -1,8 +1,14 @@
 //NIGHTLIGHT
 // https://github.com/5shekel/lightnight
 
-#include <DmxSimple.h>
 
+//DMX
+////////////////////////////////
+#include <DmxSimple.h>
+/////////////////////////////////////
+
+/// OLED
+///////////////////////////////////////////////////////
 #include <Wire.h>  // Include Wire if you're using I2C
 #include <SPI.h>  // Include SPI if you're using SPI
 #include <SFE_MicroOLED.h>  // Include the SFE_MicroOLED library
@@ -19,14 +25,16 @@
 
 #define DC_JUMPER 0
 MicroOLED oled(PIN_RESET, PIN_DC, PIN_CS);
+int Screen_width = 4;
+int Screen_height = 64;
 
 #include "SmoothAnalogInput.h"
-
-SmoothAnalogInput smp9;
-SmoothAnalogInput smp8;
-SmoothAnalogInput smp7;
-
-int samples, i;
+SmoothAnalogInput smArray[12] = {
+  SmoothAnalogInput(A0), SmoothAnalogInput(A1), SmoothAnalogInput(A2),
+  SmoothAnalogInput(A3), SmoothAnalogInput(A4), SmoothAnalogInput(A5),
+  SmoothAnalogInput(A6), SmoothAnalogInput(A7), SmoothAnalogInput(A8),
+  SmoothAnalogInput(A9), SmoothAnalogInput(A10), SmoothAnalogInput(A1)
+};
 
 void setup() {
   Serial.begin(57600);
@@ -35,55 +43,27 @@ void setup() {
   oled.clear(ALL);  // Clear the display's memory (gets rid of artifacts)
   oled.display();
 
-  pinMode(A9, INPUT);
-  pinMode(A8, INPUT);
-  pinMode(A7, INPUT);
-
   DmxSimple.usePin(3);
   DmxSimple.maxChannel(12);
-
-  smp9.attach(A9);
-  smp8.attach(A8);
-  smp7.attach(A7);
-
-
 }
 
 void loop() {
 
-  int width = 4;
-  int height = 64;
 
-  int sm7 = smp7.read();
-  sm7 = map(sm7, 0, 100, 0, 64);
-  oled.rectFill(width*0, 0, width, sm7);
+  for (int iii = 0; iii < 12; iii++) {
+    int reading = smArray[iii].read();
+    reading = map(reading, 0, 100, 0, 64);
+    oled.rectFill(Screen_width * iii, 0, Screen_width, reading);
 
-  int sm8 = smp8.read();
-  sm8 = map(sm8, 0, 100, 0, 64);
-  oled.rectFill(width*1, 0, width, sm8);
-
-  int sm9 = smp9.read();
-  sm9 = map(sm9, 0, 100, 0, 64);
-  oled.rectFill(width*2, 0, width, sm9);
-
+    Serial.print(reading);
+    Serial.print(" ");
+  }
+  Serial.println();
   oled.display(); oled.clear(PAGE);
-  
-  
-    Serial.print(sm7);
-    Serial.print(" ");
-    Serial.print(sm8);
-    Serial.print(" ");
-    Serial.print(sm9);
-    Serial.print(" ");
-    Serial.print(analogRead(A7));
-    Serial.print(" ");
-    Serial.print(analogRead(A8));
-    Serial.print(" ");
-    Serial.print(analogRead(A9));
-    Serial.println();
-  
-  delay(10);
+
   //DmxSimple.write(1, brightness);
+
+  delay(10);
 }
 
 
