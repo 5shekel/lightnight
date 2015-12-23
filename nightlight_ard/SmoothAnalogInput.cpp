@@ -30,7 +30,7 @@ SmoothAnalogInput::SmoothAnalogInput(uint8_t Apin) {
     }
   }
 */
-void SmoothAnalogInput::scale(int min, int max) {
+void SmoothAnalogInput::setScale(int min, int max) {
   if (max <= min) {
     return;
   }
@@ -39,6 +39,13 @@ void SmoothAnalogInput::scale(int min, int max) {
   _mapMax = max;
 
   _res = 1024 / (max - min) * 2;
+}
+
+int SmoothAnalogInput::getMin(){
+  return _mapMin;
+}
+int SmoothAnalogInput::getMax(){
+  return _mapMax;
 }
 
 void SmoothAnalogInput::setRampValUp(float ramp) {

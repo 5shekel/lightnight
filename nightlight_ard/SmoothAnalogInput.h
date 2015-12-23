@@ -12,8 +12,10 @@ class SmoothAnalogInput {
     public:
         SmoothAnalogInput(uint8_t pin);
        // void attach(int pin);
-        void scale(int min, int max);
+        void setScale(int min, int max);
         void setRampValUp(float ramp);
+        int getMin();
+        int getMax();
         int read();
         int raw();
     private:
