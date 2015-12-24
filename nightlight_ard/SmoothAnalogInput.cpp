@@ -8,7 +8,7 @@ SmoothAnalogInput::SmoothAnalogInput(uint8_t Apin) {
   _mapMax = 1024;
   _mapMin = 0;
   _res = 1;
-  _rampValUp = 2.4; //this will ramp faster on the up values
+  _rampValUp = 8.5; //this will ramp faster on the up values
 
   _index = 0;
 
@@ -18,18 +18,6 @@ SmoothAnalogInput::SmoothAnalogInput(uint8_t Apin) {
   }
 }
 
-/*
-  void SmoothAnalogInput::attach(int pin) {
-    pinMode(pin, INPUT);
-    _pin = pin;
-    _index = 0;
-
-    int start = analogRead(pin);
-    for (int i = 0; i < SMOOTH_ANALOG_INPUT_SIZE; i++) {
-      _samples[i] = start;
-    }
-  }
-*/
 void SmoothAnalogInput::setScale(int min, int max) {
   if (max <= min) {
     return;
@@ -78,5 +66,6 @@ int SmoothAnalogInput::read() {
   }
 
   int current = total / SMOOTH_ANALOG_INPUT_SIZE;
-  return map(current, 0, 1024, _mapMin, _mapMax);
+  return current;
+  //return map(current, 0, 1024, _mapMin, _mapMax);
 }
