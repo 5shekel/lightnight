@@ -10,7 +10,7 @@ SmoothAnalogInput smArray[piezoArraySize] = {
   SmoothAnalogInput(A0), SmoothAnalogInput(A1), SmoothAnalogInput(A2),
   SmoothAnalogInput(A3), SmoothAnalogInput(A4), SmoothAnalogInput(A5),
   SmoothAnalogInput(A6), SmoothAnalogInput(A7), SmoothAnalogInput(A8),
-  SmoothAnalogInput(A9), SmoothAnalogInput(A10), SmoothAnalogInput(A1)
+  SmoothAnalogInput(A9), SmoothAnalogInput(A10), SmoothAnalogInput(A11)
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -40,13 +40,11 @@ int Screen_height = 48;
 void setup() {
   Serial.begin(57600);
 
-  for (int iii = 0; iii < 12; iii++) {
+  for (int iii = 0; iii < piezoArraySize; iii++) {
     smArray[iii].setScale(0, 100);
   }
 
   oled.begin();
-  oled.clear(ALL);  // Clear the display's memory (gets rid of artifacts)
-  oled.display();
 
   DmxSimple.usePin(3);
   DmxSimple.maxChannel(12);
@@ -56,8 +54,9 @@ void loop() {
 
 
   for (int iii = 0; iii < 12; iii++) {
-    int reading = smArray[iii].read();
-    if (DEBUG)      {
+    int reading = smArray[iii].raw();
+
+    if (DEBUG) {
       Serial.print(reading);
       Serial.print(" ");
     }
@@ -70,6 +69,7 @@ void loop() {
     int width = (Screen_width / piezoArraySize) ; //will give 64/12=4
     oled.rectFill(width * iii, 1, width - 1, reading);
 
+    delay(2);
 
   }
   if (DEBUG) Serial.println();
